@@ -51,6 +51,12 @@ $ python
 ### Install FedML + PyTorch 1.x on NVIDIA Jetson Nano
 Please check here: `fedml_iot/pytorch-pkg-on-jetson-nano/README.md`
 
+### Prepare Dataset
+```
+cd FedML/data/MNIST/
+sh download_and_unzip.sh
+cd ../../../
+```
 ### Update the FedML library
 
 After the clone of this repository, please run the following command to get `FedML` submodule to your local.
