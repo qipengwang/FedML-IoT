@@ -99,3 +99,13 @@ python fedavg_jetson_nano_client.py --server_ip http://127.0.0.1:5000 --client_u
 ```
 
 Note please change IP and other configuration according to your local environment.
+
+
+# Update FedML Submodule
+```
+cd FedML
+git checkout master && git pull
+cd ..
+git add FedML
+git commit -m "updating submodule FedML to latest"
+```
