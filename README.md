@@ -51,6 +51,15 @@ $ python
 ### Install FedML + PyTorch 1.x on NVIDIA Jetson Nano
 Please check here: `fedml_iot/pytorch-pkg-on-jetson-nano/README.md`
 
+### Update the FedML library
+
+After the clone of this repository, please run the following command to get `FedML` submodule to your local.
+```
+cd FedML
+git submodule init
+git submodule update
+```
+
 # Log Tracking
 Our log tracking platform is wandb.com. Please register your own ID and login as follows.
 ```
