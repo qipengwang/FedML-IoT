@@ -1,16 +1,15 @@
+import argparse
 import logging
 import os
 import sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "../../")))
-
 import time
 
-import argparse
 import numpy as np
 import requests
 import torch
 
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "../../")))
+from FedML.fedml_api.distributed.fedavg.MyModelTrainer import MyModelTrainer
 from FedML.fedml_api.distributed.fedavg.FedAVGTrainer import FedAVGTrainer
 from FedML.fedml_api.distributed.fedavg.FedAvgClientManager import FedAVGClientManager
 
@@ -156,6 +155,7 @@ if __name__ == '__main__':
     logging.info("dataset = " + str(args.dataset))
     logging.info("model = " + str(args.model))
     logging.info("client_num_per_round = " + str(args.client_num_per_round))
+    client_index = client_ID - 1
 
     # Set the random seed. The np.random seed determines the dataset partition.
     # The torch_manual_seed determines the initial weight.
@@ -175,10 +175,12 @@ if __name__ == '__main__':
     # Note if the model is DNN (e.g., ResNet), the training will be very slow.
     # In this case, please use our FedML distributed version (./fedml_experiments/distributed_fedavg)
     model = create_model(args, model_name=args.model, output_dim=dataset[7])
+    model_trainer = MyModelTrainer(model)
+    model_trainer.set_id(client_index)
 
-    client_index = client_ID - 1
+    # start training
     trainer = FedAVGTrainer(client_index, train_data_local_dict, train_data_local_num_dict, train_data_num, device,
-                            model, args)
+                            args, model_trainer)
 
     size = args.client_num_per_round + 1
     client_manager = FedAVGClientManager(args, trainer, rank=client_ID, size=size, backend="MQTT")
